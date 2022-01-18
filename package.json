@@ -1,0 +1,20 @@
+{
+  "name": "league_coding_challenge",
+  "version": "1.0.0",
+  "description": "In main.go you will find a basic web server written in GoLang. It accepts a single request _/echo_. Extend the webservice with the ability to perform the following operations",
+  "main": "matrixManipulation.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.4",
+    "csv-parser": "^3.0.0",
+    "fs": "^0.0.1-security",
+    "mocha": "^8.3.2"
+  }
+}
