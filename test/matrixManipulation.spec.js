@@ -22,9 +22,9 @@ describe('Matrix Manipulation', () => {
     after(() => {
     })
 
-    it('Echo', async() => {
+    it('Echo', () => {
         // the number of rows are equal to the number of columns in matrix.csv
-        let result = await Echo(path); 
+        let result = Echo(path); 
         expect(result).to.be.deep.eq([[ '1', '2', '3' ], [ '4', '5', '6' ], [ '7', '8', '9' ]]);
 
         // rewirte this file so that the number of rows are NOT equal to the number of columns in matrix.csv
