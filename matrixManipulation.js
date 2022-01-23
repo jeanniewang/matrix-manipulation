@@ -1,20 +1,42 @@
 const fs = require('fs');
-// const util = require('util')
+const util = require('util');
+let writeFile = util.promisify(fs.writeFile);
 
-// let readFile = util.promisify(fs.readFile);
-let path = './matrix.csv';
+let readFile = util.promisify(fs.readFile);
+let testPath = './test.csv';
 
-const Echo = (inputFilePath) => {
-    let data = fs.readFileSync(inputFilePath);
+const Echo =  async (inputFilePath) => {
+    let buffer =  await readFile(inputFilePath, 'utf8');
+    let data = buffer.split('\n');
     let arrays = new Array();
-    let arr = data.toString().split("\n");
-    for(const e of arr) {
-        let splited = e.split(',');
-        let splitedToNum = splited.map((e) => Number(e))
-        arrays.push(splitedToNum);
+
+    // Trim all element and check if all element are integer
+    for (const e of data) {
+        let arr = e.split(',');
+        arr.forEach((e, i) => arr[i] = e.trim());
+        if (arr.some((e) => isNaN(e))) {
+            return "Data in this matrix is Not a number";
+        }
+        arrays.push(arr);
     }
+
+    // If all array in arrays has the same number of element; if so, return the value, or return error
+    let lenOfEachArr = arrays.map((arr) => arr.length);
+    if (!(lenOfEachArr.every((val, i, arr) => val === arr[0]))) {
+        return "This is NOT a matrix";
+    }
+
+    if (lenOfEachArr[0] != arrays.length) {
+        return "The number of rows are equal to the number of columns in this matrix";
+    }
+
+    // convert all element back to number
+    for (const arr of arrays) {
+        arr.forEach((e, i) => arr[i] = Number(arr[i]));
+    }
+    
     return arrays;
-}
+};
 
 
 const Invert = async(inputFilePath) => {
@@ -28,15 +50,9 @@ const Invert = async(inputFilePath) => {
         }
         invertArrays.push(invertArr);
     }
-    // Need to test if out put are number
-    // console.log(typeof invertArrays[0][0])
     return invertArrays;
 }
 
-// (async() => {
-//     let result = await Invert(path);
-//     console.log(result)
-// })();
 
 const Flatten = async(inputFilePath) => {
     let arrays = await Echo(inputFilePath);
@@ -47,10 +63,6 @@ const Flatten = async(inputFilePath) => {
     return flattenArr;
 }
 
-// (async() => {
-//     let result = await Flatten(path);
-//     console.log(result)
-// })();
 
 const Sum = async(inputFilePath) => {
     let arrays = await Echo(inputFilePath);
@@ -63,10 +75,6 @@ const Sum = async(inputFilePath) => {
     return sum;
 }
 
-// (async() => {
-//     let result = await Sum(path);
-//     console.log(result)
-// })();
 
 const Multiply = async(inputFilePath) => {
     let arrays = await Echo(inputFilePath);
@@ -79,9 +87,23 @@ const Multiply = async(inputFilePath) => {
     return multiplication;
 }
 
+
+
+const createFile = async (inputFilePath, data) => {
+    try {
+        await writeFile(inputFilePath, data)
+    } catch (err) {
+        console.error(err)
+    }
+} 
+
+
 (async() => {
-    let result = await Multiply(path);
-    console.log(result)
+    await createFile(testPath, '1,2,3\n4,5,6\n7,8,9');
+    let result = await Echo(testPath);
+    console.log(result);
+    // await deleteFile(testPath);
 })();
+
 
 module.exports = [Echo, Invert, Flatten, Sum, Multiply];
