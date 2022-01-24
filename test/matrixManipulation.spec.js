@@ -68,28 +68,28 @@ describe('Matrix Manipulation', () => {
         expect(result).to.be.deep.eq([[1,2,3],[5,6,7],[9,9,9]]);
     });
 
-    it('Invert', async() => {
+    it('should invert the matrix ', async() => {
         data = '1,2,3\n4,5,6\n7,8,9';
         await createFile(path, data);
         let result = await invert(path);
         expect(result).to.be.deep.eq([[1,4,7],[2,5,8],[3,6,9]]);
     });
 
-    it('Flatten', async() => {
+    it('should flatten the matrix', async() => {
         data = '1,2,3\n4,5,6\n7,8,9';
         await createFile(path, data);
         let result = await flatten(path);
         expect(result).to.be.deep.eq([1,2,3,4,5,6,7,8,9]);
     });
 
-    it('Sum', async() => {
+    it('should return the sum of elements in this matrix', async() => {
         data = '1,2,3\n4,5,6\n7,8,9';
         await createFile(path, data);
         let result = await sum(path);
         expect(result).to.be.eq(45);
     });
 
-    it('Multiply', async() => {
+    it('should return the mulplication of elements in this matrix', async() => {
         data = '1,2,3\n4,5,6\n7,8,9';
         await createFile(path, data);
         let result = await multiply(path);

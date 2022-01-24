@@ -122,6 +122,19 @@
 ## Unit test for all the core functions: Echo, Invert, Flatten, Sum, Multiply
 - Go to root folder (./League_coding_challenge):
     ```
-    mocha .\test\matrixManipulation.spec.js
+    npm run test
+    ```
+    ```
+    // expected output
+    Matrix Manipulation
+    √ should return error that This matrix contains element that is not a number
+    √ should return error that This is NOT a matrix
+    √ shold return error The number of rows are NOT equal to the number of columns in this matrix
+    √ should trim and read the data in this matrix
+    √ should read the matrix
+    √ should invert the matrix 
+    √ should flatten the matrix
+    √ should return the sum of elements in this matrix
+    √ should return the mulplication of elements in this matrix
     ```
 
