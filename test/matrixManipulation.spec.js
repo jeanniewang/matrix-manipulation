@@ -5,13 +5,13 @@ const util = require('util');
 let writeFile = util.promisify(fs.writeFile);
 let deleteFile = util.promisify(fs.unlink);
 
-const [
+const {
     Echo,
     Invert,
     Flatten,
     Sum,
     Multiply
-  ] = require("../matrixManipulation.js");
+ } = require("../matrixManipulation.js");
 
 const createFile = async (inputFilePath, content) => {
     try {
@@ -30,35 +30,38 @@ describe('Matrix Manipulation', () => {
     after(() => {
     })
 
-    it('Echo Data in this matrix is Not a number', async() => {
+    it('should return error that This matrix contains element that is not a number', async() => {
         data = '100,1,0\n4x,5,4\n8,9, 10';
         await createFile(path, data);
-        let result = await Echo(path); 
-        expect(result).to.be.eq("Data in this matrix is Not a number");
+        let result = await Echo(path);
+        expect(result instanceof Error).to.be.eq(true);
+        expect(result.message).to.be.eq("This matrix contains element that is not a number");
     });
 
-    it('Echo This is NOT a matrix', async() => {
+    it('should return error that This is NOT a matrix', async() => {
         data = '1,2,3\n5,6,7,8\n9,9,9,9';
         await createFile(path, data);
         let result = await Echo(path); 
-        expect(result).to.be.eq("This is NOT a matrix");
+        expect(result instanceof Error).to.be.eq(true);
+        expect(result.message).to.be.eq("This is NOT a matrix");
     });
 
-    it('Echo The number of rows are equal to the number of columns in this matrix', async() => {
+    it('shold return error The number of rows are NOT equal to the number of columns in this matrix', async() => {
         data = '1,2,3,4\n5,6,7,8\n9,9,9,9';
         await createFile(path, data);
         let result = await Echo(path); 
-        expect(result).to.be.eq("The number of rows are equal to the number of columns in this matrix");
+        expect(result instanceof Error).to.be.eq(true);
+        expect(result.message).to.be.eq("The number of rows are NOT equal to the number of columns in this matrix");
     });
 
-    it('Echo can trim the data in this matrix', async() => {
+    it('should trim and read the data in this matrix', async() => {
         data = '1,2,  3 \n5,6, 7\n9,  9,9';
         await createFile(path, data);
         let result = await Echo(path); 
         expect(result).to.be.deep.eq([[1,2,3],[5,6,7],[9,9,9]]);
     });
 
-    it('Echo the matrix', async() => {
+    it('should read the matrix', async() => {
         data = '1,2,3\n5,6,7\n9,9,9';
         await createFile(path, data);
         let result = await Echo(path); 

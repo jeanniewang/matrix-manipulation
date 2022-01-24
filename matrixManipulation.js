@@ -1,41 +1,47 @@
 const fs = require('fs');
 const util = require('util');
-let writeFile = util.promisify(fs.writeFile);
-
 let readFile = util.promisify(fs.readFile);
-let testPath = './test.csv';
 
 const Echo =  async (inputFilePath) => {
-    let buffer =  await readFile(inputFilePath, 'utf8');
-    let data = buffer.split('\n');
-    let arrays = new Array();
+    try {
+        let buffer =  await readFile(inputFilePath, 'utf8');
+        let data = buffer.split('\n');
+        let arrays = new Array();
 
-    // Trim all element and check if all element are integer
-    for (const e of data) {
-        let arr = e.split(',');
-        arr.forEach((e, i) => arr[i] = e.trim());
-        if (arr.some((e) => isNaN(e))) {
-            return "Data in this matrix is Not a number";
+        // Trim all element and check if all element are integer
+        // Then push each line into arrays
+        for (const e of data) {
+            let arr = e.split(',');
+            arr.forEach((e, i) => arr[i] = e.trim());
+            if (arr.some((e) => isNaN(e))) {
+                return Error("This matrix contains element that is not a number");
+            }
+            arrays.push(arr);
         }
-        arrays.push(arr);
-    }
 
-    // If all array in arrays has the same number of element; if so, return the value, or return error
-    let lenOfEachArr = arrays.map((arr) => arr.length);
-    if (!(lenOfEachArr.every((val, i, arr) => val === arr[0]))) {
-        return "This is NOT a matrix";
-    }
+        // If all array in arrays has the same number of element; if so, return the value, or return error
+        let lenOfEachArr = arrays.map((arr) => arr.length);
+        if (!(lenOfEachArr.every((val, i, arr) => val === arr[0]))) {
+            return Error("This is NOT a matrix");
+        }
+        if (lenOfEachArr[0] != arrays.length) {
+            return Error("The number of rows are NOT equal to the number of columns in this matrix");
+        }
 
-    if (lenOfEachArr[0] != arrays.length) {
-        return "The number of rows are equal to the number of columns in this matrix";
-    }
+        // convert all element back to number
+        for (const arr of arrays) {
+            arr.forEach((e, i) => arr[i] = Number(arr[i]));
+        }
 
-    // convert all element back to number
-    for (const arr of arrays) {
-        arr.forEach((e, i) => arr[i] = Number(arr[i]));
+        return arrays;
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            return Error("File not found")
+          } else {
+            throw err;
+          }
     }
     
-    return arrays;
 };
 
 
@@ -87,23 +93,10 @@ const Multiply = async(inputFilePath) => {
     return multiplication;
 }
 
-
-
-const createFile = async (inputFilePath, data) => {
-    try {
-        await writeFile(inputFilePath, data)
-    } catch (err) {
-        console.error(err)
-    }
-} 
-
-
-(async() => {
-    await createFile(testPath, '1,2,3\n4,5,6\n7,8,9');
-    let result = await Echo(testPath);
-    console.log(result);
-    // await deleteFile(testPath);
-})();
-
-
-module.exports = [Echo, Invert, Flatten, Sum, Multiply];
+module.exports = {
+    Echo, 
+    Invert, 
+    Flatten, 
+    Sum, 
+    Multiply
+};

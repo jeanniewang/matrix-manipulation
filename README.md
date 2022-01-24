@@ -1,67 +1,126 @@
-# League Backend Challenge
-
-In main.go you will find a basic web server written in GoLang. It accepts a single request _/echo_. Extend the webservice with the ability to perform the following operations
-
-Given an uploaded csv file
-```
-1,2,3
-4,5,6
-7,8,9
-```
-
-1. Echo (given)
-    - Return the matrix as a string in matrix format.
-    
+# HOW TO RUN THIS APP
+- Go to root folder (./League_coding_challenge) and install all dependances:
     ```
-    // Expected output
+    npm install
+    node app.js
+    ```
+Given an uploaded csv file (matrix.csv)
+    - The input file to these functions is a matrix, of any dimension where the number of rows are equal to the number of columns (square). Each value is an integer, and there is no header row. matrix.csv is example valid input.  
+    ```
     1,2,3
     4,5,6
     7,8,9
+    ```
+1. Echo (given)
+    - Return the matrix as a string in matrix format.
+    ```
+    curl "http://localhost:8080/echo?path=matrix.csv"
+    ``` 
+    - Expected return
+    ```
+    {"matrix":[[1,2,3],[4,5,6],[7,8,9]]}
     ``` 
 2. Invert
     - Return the matrix as a string in matrix format where the columns and rows are inverted
     ```
-    // Expected output
-    1,4,7
-    2,5,8
-    3,6,9
+    curl "http://localhost:8080/invert?path=matrix.csv"
     ``` 
+    - Expected return
+    ```
+    {"Inverted matrix":[[1,4,7],[2,5,8],[3,6,9]]}
+    ``` 
+
 3. Flatten
     - Return the matrix as a 1 line string, with values separated by commas.
     ```
-    // Expected output
-    1,2,3,4,5,6,7,8,9
+    curl "http://localhost:8080/flatten?path=matrix.csv"
+    ``` 
+    - Expected return
+    ```
+    {"Flatten matrix":[1,2,3,4,5,6,7,8,9]}
     ``` 
 4. Sum
     - Return the sum of the integers in the matrix
     ```
-    // Expected output
+    curl "http://localhost:8080/sum?path=matrix.csv"
     45
     ``` 
-5. Multiply
-    - Return the product of the integers in the matrix
+    - Expected return
     ```
-    // Expected output
-    362880
+    {"Flatten matrix":[1,2,3,4,5,6,7,8,9]}
     ``` 
 
-The input file to these functions is a matrix, of any dimension where the number of rows are equal to the number of columns (square). Each value is an integer, and there is no header row. matrix.csv is example valid input.  
+5. Multiply
+    - Return the product of the integers in the matrix
+        ```
+        curl "http://localhost:8080/multiply?path=matrix.csv"
+        ``` 
+        - Expected return
+        ```
+        {"Multiplication of this matrix":362880}
+    ``` 
+6. Handle exception
+    - This matrix contains element that is not a number
+        ```
+        // Given an uploaded csv file
+        1,2,3
+        1,2,3
+        4,5,f
+        ``` 
+        ```
+        curl "http://localhost:8080/echo?path=test/matrixIncludeNonNumber.csv"
+        ``` 
+        ```
+        // Expected return
+        {"error":"This matrix contains element that is not a number"}
+        ``` 
 
-Run web server
-```
-go run .
-```
+    - The data in the input file is Not a matrix
+        ```
+        // Given an uploaded csv file
+        1,2,3
+        1,2
+        ``` 
+        ```
+        curl "http://localhost:8080/echo?path=test/matrixFaulty.csv"
+        ``` 
+        ```
+        // Expected return
+        {"error":"This is NOT a matrix"}
+        ```
+    - The number of rows are NOT equal to the number of columns in this matrix
+        ```
+        // Given an uploaded csv file
+        1,2,3,4
+        1,2,3,4
+        4,5,6,4
+        ``` 
+        ```
+        curl "http://localhost:8080/echo?path=test/matrixnonsquare.csv"
+        ``` 
+        ```
+        // Expected return
+        {"error":"The number of rows are NOT equal to the number of columns in this matrix"}
+        ```
+    - The Echo function is robust and can trim element in this matrix
+        ```
+        // Given an uploaded csv file
+        1,2, 3  
+        4,  5  ,6
+        7,8 ,9
+        ``` 
+        ```
+        curl "http://localhost:8080/echo?path=test/matrixfortriming.csv"
+        ``` 
+        ```
+        // Expected return
+        {"matrix":[[1,2,3],[4,5,6],[7,8,9]]}
+        ```
 
-Send request
-```
-curl -F 'file=@/path/matrix.csv' "localhost:8080/echo"
-```
 
-## What we're looking for
+# Unit test for all the core functions: Echo, Invert, Flatten, Sum, Multiply
+- Go to root folder (./League_coding_challenge):
+    ```
+    mocha .\test\matrixManipulation.spec.js
+    ```
 
-- The solution runs
-- The solution performs all cases correctly
-- The code is easy to read
-- The code is reasonably documented
-- The code is tested
-- The code is robust and handles invalid input and provides helpful error messages
