@@ -1,16 +1,10 @@
-# HOW TO RUN THIS APP
+## HOW TO RUN THIS APP
 - Go to root folder (./League_coding_challenge) and install all dependances:
     ```
     npm install
     node app.js
     ```
-Given an uploaded csv file (matrix.csv)
-    - The input file to these functions is a matrix, of any dimension where the number of rows are equal to the number of columns (square). Each value is an integer, and there is no header row. matrix.csv is example valid input.  
-    ```
-    1,2,3
-    4,5,6
-    7,8,9
-    ```
+
 1. Echo (given)
     - Return the matrix as a string in matrix format.
     ```
@@ -43,7 +37,6 @@ Given an uploaded csv file (matrix.csv)
     - Return the sum of the integers in the matrix
     ```
     curl "http://localhost:8080/sum?path=matrix.csv"
-    45
     ``` 
     - Expected return
     ```
@@ -55,14 +48,14 @@ Given an uploaded csv file (matrix.csv)
         ```
         curl "http://localhost:8080/multiply?path=matrix.csv"
         ``` 
-        - Expected return
+    - Expected return
         ```
         {"Multiplication of this matrix":362880}
-    ``` 
+        ``` 
 6. Handle exception
     - This matrix contains element that is not a number
         ```
-        // Given an uploaded csv file
+        // Given an uploaded csv file (./League_coding_challenge/test/matrixIncludeNonNumber.csv)
         1,2,3
         1,2,3
         4,5,f
@@ -77,7 +70,7 @@ Given an uploaded csv file (matrix.csv)
 
     - The data in the input file is Not a matrix
         ```
-        // Given an uploaded csv file
+        // Given an uploaded csv file (./League_coding_challenge/test/matrixFaulty.csv)
         1,2,3
         1,2
         ``` 
@@ -90,7 +83,7 @@ Given an uploaded csv file (matrix.csv)
         ```
     - The number of rows are NOT equal to the number of columns in this matrix
         ```
-        // Given an uploaded csv file
+        // Given an uploaded csv file (./League_coding_challenge/test/matrixnonsquare.csv)
         1,2,3,4
         1,2,3,4
         4,5,6,4
@@ -104,7 +97,7 @@ Given an uploaded csv file (matrix.csv)
         ```
     - The Echo function is robust and can trim element in this matrix
         ```
-        // Given an uploaded csv file
+        // Given an uploaded csv file (./League_coding_challenge/test/matrixfortriming.csv)
         1,2, 3  
         4,  5  ,6
         7,8 ,9
@@ -118,7 +111,7 @@ Given an uploaded csv file (matrix.csv)
         ```
 
 
-# Unit test for all the core functions: Echo, Invert, Flatten, Sum, Multiply
+## Unit test for all the core functions: Echo, Invert, Flatten, Sum, Multiply
 - Go to root folder (./League_coding_challenge):
     ```
     mocha .\test\matrixManipulation.spec.js
