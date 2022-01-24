@@ -50,7 +50,7 @@
         ``` 
     - Expected return
         ```
-        {"Multiplication of this matrix":362880}
+        {"Product of this matrix":362880}
         ``` 
 6. Handle exception
     - File not found
@@ -135,6 +135,6 @@
     √ should invert the matrix 
     √ should flatten the matrix
     √ should return the sum of elements in this matrix
-    √ should return the mulplication of elements in this matrix
+    √ should return the product of elements in this matrix
     ```
 
