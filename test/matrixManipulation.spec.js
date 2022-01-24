@@ -89,7 +89,7 @@ describe('Matrix Manipulation', () => {
         expect(result).to.be.eq(45);
     });
 
-    it('should return the mulplication of elements in this matrix', async() => {
+    it('should return the product of elements in this matrix', async() => {
         data = '1,2,3\n4,5,6\n7,8,9';
         await createFile(path, data);
         let result = await multiply(path);

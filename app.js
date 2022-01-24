@@ -23,5 +23,5 @@ router.get("/multiply", multiplyMatrix);
 app.use("", router);
 
 app.listen(8080, () => {
-    console.log("The matrix manipulation handler running on port 8080");
+    console.log("The matrix manipulation app running on port 8080");
 });
