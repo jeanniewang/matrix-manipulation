@@ -53,6 +53,14 @@
         {"Multiplication of this matrix":362880}
         ``` 
 6. Handle exception
+    - File not found
+        ```
+        curl "http://localhost:8080/echo?path=test/matrix.csv"
+        ``` 
+        ```
+        // Expected return
+        {"error":"File not found"}
+        ``` 
     - This matrix contains element that is not a number
         ```
         // Given an uploaded csv file (./League_coding_challenge/test/matrixIncludeNonNumber.csv)

@@ -1,15 +1,15 @@
 const {
-    Echo,
-    Invert,
-    Flatten,
-    Sum,
-    Multiply
+    echo,
+    invert,
+    flatten,
+    sum,
+    multiply
 } = require("./matrixManipulation.js");
 
 const echoMatrix = async (req, res) => {
     try {
         const inputFilePath = req.query.path;
-        const result = await Echo(inputFilePath);
+        const result = await echo(inputFilePath);
         if (result instanceof Error) {
             res.status(400).json({error: result.message});
         } else {
@@ -24,7 +24,7 @@ const echoMatrix = async (req, res) => {
 const invertMatrix = async (req, res) => {
     try {
         const inputFilePath = req.query.path;
-        const result = await Invert(inputFilePath);
+        const result = await invert(inputFilePath);
         res.status(200).json({"Inverted matrix": result});
     } catch(err) {
         res.status(500).json({error: err})
@@ -34,7 +34,7 @@ const invertMatrix = async (req, res) => {
 const flattenMatrix = async (req, res) => {
     try {
         const inputFilePath = req.query.path;
-        const result = await Flatten(inputFilePath);
+        const result = await flatten(inputFilePath);
         res.status(200).json({"Flatten matrix": result});
     } catch(err) {
         res.status(500).json({error: err})
@@ -45,7 +45,7 @@ const flattenMatrix = async (req, res) => {
 const sumMatrix = async (req, res) => {
     try {
         const inputFilePath = req.query.path;
-        const result = await Sum(inputFilePath);
+        const result = await sum(inputFilePath);
         res.status(200).json({"Sum of this matrix": result});
     } catch(err) {
         res.status(500).json({error: err})
@@ -56,7 +56,7 @@ const sumMatrix = async (req, res) => {
 const multiplyMatrix = async (req, res) => {
     try {
         const inputFilePath = req.query.path;
-        const result = await Multiply(inputFilePath);
+        const result = await multiply(inputFilePath);
         res.status(200).json({"Multiplication of this matrix": result});
     } catch(err) {
         res.status(500).json({error: err})

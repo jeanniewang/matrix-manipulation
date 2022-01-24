@@ -2,7 +2,7 @@ const fs = require('fs');
 const util = require('util');
 let readFile = util.promisify(fs.readFile);
 
-const Echo =  async (inputFilePath) => {
+const echo =  async (inputFilePath) => {
     try {
         let buffer =  await readFile(inputFilePath, 'utf8');
         let data = buffer.split('\n');
@@ -45,8 +45,8 @@ const Echo =  async (inputFilePath) => {
 };
 
 
-const Invert = async(inputFilePath) => {
-    let arrays = await Echo(inputFilePath);
+const invert = async(inputFilePath) => {
+    let arrays = await echo(inputFilePath);
     let invertArrays = [];
     let colNum = arrays[0].length;
     for (let i = 0; i < colNum; i ++) {
@@ -60,8 +60,8 @@ const Invert = async(inputFilePath) => {
 }
 
 
-const Flatten = async(inputFilePath) => {
-    let arrays = await Echo(inputFilePath);
+const flatten = async(inputFilePath) => {
+    let arrays = await echo(inputFilePath);
     let flattenArr = [];
     for (const arr of arrays) {
         flattenArr = flattenArr.concat(arr);
@@ -70,8 +70,8 @@ const Flatten = async(inputFilePath) => {
 }
 
 
-const Sum = async(inputFilePath) => {
-    let arrays = await Echo(inputFilePath);
+const sum = async(inputFilePath) => {
+    let arrays = await echo(inputFilePath);
     let reducer = (preVal, curVal) => preVal + curVal;
     let oneDimArray = [];
     for (const arr of arrays) {
@@ -82,8 +82,8 @@ const Sum = async(inputFilePath) => {
 }
 
 
-const Multiply = async(inputFilePath) => {
-    let arrays = await Echo(inputFilePath);
+const multiply = async(inputFilePath) => {
+    let arrays = await echo(inputFilePath);
     let reducer = (preVal, curVal) => preVal * curVal;
     let oneDimArray = [];
     for (const arr of arrays) {
@@ -94,9 +94,9 @@ const Multiply = async(inputFilePath) => {
 }
 
 module.exports = {
-    Echo, 
-    Invert, 
-    Flatten, 
-    Sum, 
-    Multiply
+    echo, 
+    invert, 
+    flatten, 
+    sum, 
+    multiply
 };
